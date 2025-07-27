@@ -1,0 +1,7 @@
+__pycache__/
+
+training/football-players-detection-1/
+
+*.mp4
+*.avi
+models/*.pt
