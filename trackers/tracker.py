@@ -7,6 +7,7 @@ sys.path.append('../')
 from utils import get_center_of_bbox, get_bbox_width
 import cv2
 import numpy as np
+import pandas as pd
 
 class Tracker:
   def __init__(self, model_path):
@@ -127,7 +128,7 @@ class Tracker:
 
     return frame
 
-  def draw_traingle(self,frame,bbox,color):
+  def draw_triangle(self,frame,bbox,color):
     y = int(bbox[1])
     x,_ = get_center_of_bbox(bbox)
 
@@ -155,14 +156,29 @@ class Tracker:
         color = player.get("team_color", (0, 0, 255))
         frame = self.draw_ellipse(frame, player["bbox"], color, track_id)
 
+        if player.get('has_ball', False):
+          frame = self.draw_triangle(frame, player["bbox"], (0,0,255))
+
       # Draw referee
       for _, referee in referee_dict.items():
         frame = self.draw_ellipse(frame, referee["bbox"], (0,255,255))
 
       # Draw ball 
       for track_id, ball in ball_dict.items():
-        frame = self.draw_traingle(frame, ball["bbox"], (0,255,0))
+        frame = self.draw_triangle(frame, ball["bbox"], (0,255,0))
 
       output_video_frames.append(frame)
 
     return output_video_frames
+
+  def interpolate_ball_positions(self, ball_positions):
+    ball_positions = [x.get(1,{}).get('bbox',[]) for x in ball_positions]
+    df_ball_positions = pd.DataFrame(ball_positions, columns=['x1','y1','x2','y2'])
+
+    df_ball_positions = df_ball_positions.interpolate()
+    df_ball_positions = df_ball_positions.bfill()
+
+    ball_positions = [{1: {"bbox":x}} for x in df_ball_positions.to_numpy().tolist()]
+
+    return ball_positions
+  
