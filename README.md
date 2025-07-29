@@ -12,3 +12,6 @@ We execute the code available in the file `yolo_inference.py`. The result of exe
 
 ## 3. Adding tracking to players, referees and the ball (initial phase)
 The preliminary result of this action is available here: [output_video_v2.avi](https://drive.google.com/file/d/1zKfecuWywcJYb9hn1lJwdw-rDs9A-Jq3/view?usp=drive_link)
+
+## 4. Assigning colors to players
+The result of this action is available here: [output_video_v3.avi](https://drive.google.com/file/d/1e9_UryUNL4LYPsiGIamHn6dakf295jST/view?usp=drive_link)
