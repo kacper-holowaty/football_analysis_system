@@ -56,7 +56,7 @@ class TeamAssigner:
     if player_id in self.player_team_dict:
         return self.player_team_dict[player_id]
 
-    player_color = self.get_player_color(frame,player_bbox)
+    player_color = self.get_player_color(frame, player_bbox)
 
     team_id = self.kmeans.predict(player_color.reshape(1, -1))[0]
     team_id += 1
